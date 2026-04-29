@@ -1,0 +1,9 @@
+/* ngatur size sampul */
+.sampul {
+    width: 100px;
+    height: 150px;
+}
+/* buat nengahin tulisan  */
+.table > tbody > tr > * {
+    vertical-align: middle;
+}
