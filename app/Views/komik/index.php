@@ -4,7 +4,18 @@
 <div class="container">
     <div class="row">
         <div class="col mt-2">
+            <!-- Create merupakan method yang berfungsi untuk menampilkan form untuk insert data -->
+            <a href="/komik/create" class="btn btn-primary">Tambah Komik +</a>
             <h1>Daftar Komik</h1>
+
+            <!-- Buat nampilin flash data -->
+            <?php if(session()->getFlashdata('pesan')) :?>
+            <div class="alert alert-success" role="alert">
+                <?= session()->getFlashdata('pesan'); ?>
+            </div>
+            <?php endif; ?>
+            <!-- Flash data selsai -->
+
             <table class="table">
                 <thead>
                     <tr>
@@ -22,7 +33,7 @@
                         <td><img src="/img/<?= $k["sampul"];?>" class="sampul" alt=""></td>
                         <td><?= $k["judul_komik"]; ?></td>
                         <td>
-                            <a href="/komik/<?= $k["slug"]; ?>" class="btn btn-success">Detail</a>
+                            <a href="/komik/detail/<?= $k["slug"]; ?>" class="btn btn-success">Detail</a>
                         </td>
                     </tr>
                     <?php endforeach; ?>

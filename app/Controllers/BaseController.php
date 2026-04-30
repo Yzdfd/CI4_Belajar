@@ -41,7 +41,7 @@ abstract class BaseController extends Controller
 
         // Preload any models, libraries, etc, here.
         // $this->session = service('session');
-        $this->nama='Dewa Kipas';
+        // $this->nama='Dewa Kipas';
 
         // Semisal mau bikin modelnya bisa diakses semua controller, ini caranya. Jadi gak usah inisiasi modelnya di setiap method
         // $this->komikModel = new \App\Models\KomikModel();

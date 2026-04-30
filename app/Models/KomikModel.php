@@ -12,6 +12,9 @@ class KomikModel extends Model
     protected $primaryKey = 'id';
     protected $useTimestamps = true;
 
+    // Buat ngasih tau field apa aja yang boleh diisi, biar aman
+    protected $allowedFields = ['judul_komik', 'slug', 'penulis', 'penerbit', 'sampul'];
+
 
     // buat ambil data berdasarkan slug nya, slug bisa diganti id
     public function getKomik($slug = false)
