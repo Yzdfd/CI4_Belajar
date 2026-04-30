@@ -12,5 +12,16 @@ class KomikModel extends Model
     protected $primaryKey = 'id';
     protected $useTimestamps = true;
 
+
+    // buat ambil data berdasarkan slug nya, slug bisa diganti id
+    public function getKomik($slug = false)
+    {
+        if ($slug == false) {
+            return $this->findAll();
+        }
+
+        return $this->where(['slug' => $slug])->first();
+    }
+
     
 }
