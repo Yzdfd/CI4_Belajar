@@ -45,5 +45,6 @@ abstract class BaseController extends Controller
 
         // Semisal mau bikin modelnya bisa diakses semua controller, ini caranya. Jadi gak usah inisiasi modelnya di setiap method
         // $this->komikModel = new \App\Models\KomikModel();
+        session();
     }
 }

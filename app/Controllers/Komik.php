@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 class Komik extends BaseController
 {
-// biar modelnya bisa dipake di semua method
+    // biar modelnya bisa dipake di semua method
     protected $komikModel;
     public function __construct()
     {
@@ -15,7 +15,7 @@ class Komik extends BaseController
     {
         // $komik= $this->komikModel->findAll();
         $data = [
-            'tittle' => 'Daftar Komik | Ea', 
+            'tittle' => 'Daftar Komik | Ea',
             'komik' => $this->komikModel->getKomik()
         ];
 
@@ -26,24 +26,25 @@ class Komik extends BaseController
         // foreach ($komik->getResultArray() as $row) {
         //     d($row);
         // }
-        
+
         // inisiasi model
         // $komikModel = new \App\Models\KomikModel();
         // dd($komik);
-        
+
         return view('komik/index', $data);
     }
+
 
     public function detail($slug)
     {
         // $komik = $this -> komikModel ->getKomik($slug);
         $data = [
             'tittle' => 'Detail Komik | Ea',
-            'komik' => $this -> komikModel ->getKomik($slug)
+            'komik' => $this->komikModel->getKomik($slug)
         ];
 
         // Jika Komik tidak ada
-        if(empty($data["komik"])) {
+        if (empty($data["komik"])) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException("Judul Komik $slug tidak ditemukan");
         }
 
@@ -54,8 +55,10 @@ class Komik extends BaseController
 
     public function create()
     {
+        session();
         $data = [
-            'tittle' => 'Form Tambah Data Komik | Ea'
+            'tittle' => 'Form Tambah Data Komik | Ea',
+            'validation' => session()->getFlashdata('validation') ?? []
         ];
         return view('komik/create', $data);
     }
@@ -64,13 +67,29 @@ class Komik extends BaseController
     // Berfyungsi untuk mengelola data dari method create untuk di insert kedalam tabel
     public function save()
     {
+
+        // Validasi Inputan berdasarkan name inputan di form Pipe untuk menambahkan rules (BACA RULES DI DOKUMENTASI CI4)
+        if (
+            !$this->validate([
+                'judul' => 'required|is_unique[komik.judul_komik]',
+                'penulis' => 'required',
+                'penerbit' => 'required',
+                'sampul' => 'required'
+            ])
+        ) {
+            // Ambil pesan kesalahan 
+            $validation = \Config\Services::validation();
+            return redirect()->to('/komik/create')
+                ->withInput()
+                ->with('validation', $validation->getErrors());
+        }
         // getvar untuk ngambil apapun, baik get ataupun post
         // dd($this->request->getVar());
         // $this->request->getVar();
 
-        // untuk buat string jadi huruf kecil semua, spasi jadi strip, dan aman untuk url
+        // untuk buat string jadi huruf kecil semua, spasi jadi strip, dan aman untuk url, 
         $slug = url_title($this->request->getVar('judul'), '-', true);
-        
+
         // cara inserrt keddatabase pakai model
         $this->komikModel->save([
             'judul_komik' => $this->request->getVar('judul'),
